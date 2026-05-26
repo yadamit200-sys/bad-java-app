@@ -2,10 +2,17 @@ name: Semgrep
 
 on:
   push:
-    branches: ["main", "master"]
+    branches:
+      - main
+      - master
+
   pull_request:
-    branches: ["main", "master"]
+    branches:
+      - main
+      - master
+
   workflow_dispatch:
+
   schedule:
     - cron: "0 0 * * *"
 
@@ -18,15 +25,21 @@ permissions:
 jobs:
   semgrep:
     name: Semgrep Scan
+
     runs-on: ubuntu-latest
+
     container:
       image: semgrep/semgrep:latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
         with:
           fetch-depth: 0
+
       - name: Run Semgrep
         run: semgrep ci
+
         env:
           SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
